@@ -42,7 +42,7 @@ models:
       +materialized: view
       +schema: STAGING
     refined:    # Refined data layer / Applies to all files under models/refined/
-      +materialized: view
+      +materialized: table
       +schema: REFINED
     marts:      # Data delivery layer / Applies to all files under models/marts/
       +materialized: table

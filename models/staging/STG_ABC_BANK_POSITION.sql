@@ -1,3 +1,5 @@
+{{ config(materialized='ephemeral') }}
+
 WITH 
 src_data AS (
     SELECT

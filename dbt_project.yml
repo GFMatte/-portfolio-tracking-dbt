@@ -38,15 +38,19 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   portfolio_tracking:
     +materialized: view
+
     staging:    # Data storage layer / Applies to all files under models/staging/
       +materialized: view
       +schema: STAGING
+
     refined:    # Refined data layer / Applies to all files under models/refined/
       +materialized: table
       +schema: REFINED
+
     marts:      # Data delivery layer / Applies to all files under models/marts/
-      +materialized: table
-      +schema: MART_PORTFOLIO
+      portfolio:
+        +materialized: table
+        +schema: MART_PORTFOLIO
 snapshots:
   portfolio_tracking:
     +target_schema: SNAPSHOTS

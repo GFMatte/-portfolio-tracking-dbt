@@ -65,9 +65,3 @@ seeds:
         - "UPDATE {{ this }}  SET LOAD_TS = '{{ run_started_at }}' WHERE LOAD_TS IS NULL"
       +column_types:
         LOAD_TS: timestamp
-        COUNTRY: varchar
-        EXCHANGE: varchar
-        INDUSTRY: varchar
-        SECTOR: varchar
-        SECURITY_CODE: varchar
-        SECURITY_NAME: varchar

@@ -1,6 +1,8 @@
 WITH
 current_snapshot as (
-    SELECT * FROM {{ ref('SNSH_ABC_BANK_POSITION') }}
+    SELECT * 
+    EXCLUDE (DBT_SCD_ID, DBT_UPDATED_AT, DBT_VALID_FROM, DBT_VALID_TO) -- Removes Snapshot metadata
+    FROM {{ ref('SNSH_ABC_BANK_POSITION') }}
     WHERE DBT_VALID_TO is null
 )
 SELECT 

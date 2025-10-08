@@ -59,9 +59,14 @@ snapshots:
 # Configuring seeds
 seeds:
   portfolio_tracking:
-    +schema: seed_data
+    +schema: SEED_DATA
     ABC_BANK_SECURITY_INFO:
       +post-hook:
-        - "UPDATE {{ this }}  SET LOAD_TS = '{{ run_started_at }}' WHERE LOAD_TS IS NULL"
+        - "UPDATE {{ this }} SET LOAD_TS = '{{ run_started_at }}' WHERE LOAD_TS IS NULL"
+      +column_types:
+        LOAD_TS: timestamp
+    ABC_BANK_COUNTRY_INFO:
+      +post-hook:
+        - "UPDATE {{ this }} SET LOAD_TS = '{{ run_started_at }}' WHERE LOAD_TS IS NULL"
       +column_types:
         LOAD_TS: timestamp

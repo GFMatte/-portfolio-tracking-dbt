@@ -29,10 +29,14 @@ with_default_record AS (
 ),
 hashed AS (
     SELECT
-         concat_ws('|', ALPHABETIC_CODE)         AS CURRENCY_HKEY
-        ,concat_ws('|',ALPHABETIC_CODE,NUMERIC_CODE,
-        DECIMAL_DIGITS, CURRENCY_NAME,
-        LOCATIONS_NAME)                          AS CURRENCY_HDIFF
+         concat_ws('|', ALPHABETIC_CODE)          AS CURRENCY_HKEY
+        ,concat_ws('|',
+            NVL(TO_VARCHAR(ALPHABETIC_CODE), ''),
+            NVL(TO_VARCHAR(NUMERIC_CODE), ''),
+            NVL(TO_VARCHAR(DECIMAL_DIGITS), ''),
+            NVL(TO_VARCHAR(CURRENCY_NAME), ''),
+            NVL(TO_VARCHAR(LOCATIONS_NAME), '')
+        )                                        AS CURRENCY_HDIFF                      
         , * EXCLUDE LOAD_TS                    
         , LOAD_TS                                AS LOAD_TS_UTC
     

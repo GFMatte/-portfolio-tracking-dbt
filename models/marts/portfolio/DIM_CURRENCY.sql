@@ -1,0 +1,2 @@
+SELECT *
+FROM {{ ref("ABC_BANK_CURRENCY_INFO") }}

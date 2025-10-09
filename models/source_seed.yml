@@ -5,3 +5,4 @@ sources:
     tables:
       - name: ABC_BANK_SECURITY_INFO
       - name: ABC_BANK_COUNTRY_INFO
+      - name: ABC_BANK_CURRENCY_INFO

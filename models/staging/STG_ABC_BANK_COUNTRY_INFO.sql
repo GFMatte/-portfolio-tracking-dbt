@@ -40,15 +40,25 @@ with_default_record AS (
     SELECT * FROM default_record
 ),
 hashed AS (
-    SELECT
-         concat_ws('|', COUNTRY_CODE)        AS COUNTRY_HKEY
-        ,concat_ws('|',COUNTRY_NAME,COUNTRY_CODE,
-        COUNTRY_CODE_3_LETTER, COUNTRY_CODE_NUMERIC,
-        ISO_3166_2_CODE, REGION_NAME, SUB_REGION_NAME,
-        INTERMEDIATE_REGION_NAME, REGION_CODE, SUB_REGION_CODE,
-        INTERMEDIATE_REGION_CODE)           AS COUNTRY_HDIFF
-        , * EXCLUDE LOAD_TS                 
-        , LOAD_TS                           AS LOAD_TS_UTC
+SELECT
+    CONCAT_WS('|', NVL(TO_VARCHAR(COUNTRY_CODE), '')) AS COUNTRY_HKEY,
+
+    CONCAT_WS('|',
+        NVL(TO_VARCHAR(COUNTRY_NAME), ''),
+        NVL(TO_VARCHAR(COUNTRY_CODE), ''),
+        NVL(TO_VARCHAR(COUNTRY_CODE_3_LETTER), ''),
+        NVL(TO_VARCHAR(COUNTRY_CODE_NUMERIC), ''),
+        NVL(TO_VARCHAR(ISO_3166_2_CODE), ''),
+        NVL(TO_VARCHAR(REGION_NAME), ''),
+        NVL(TO_VARCHAR(SUB_REGION_NAME), ''),
+        NVL(TO_VARCHAR(INTERMEDIATE_REGION_NAME), ''),
+        NVL(TO_VARCHAR(REGION_CODE), ''),
+        NVL(TO_VARCHAR(SUB_REGION_CODE), ''),
+        NVL(TO_VARCHAR(INTERMEDIATE_REGION_CODE), '')
+    ) AS COUNTRY_HDIFF,
+
+    * EXCLUDE LOAD_TS,
+    LOAD_TS AS LOAD_TS_UTC
     
     FROM with_default_record
 )

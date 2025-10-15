@@ -31,12 +31,14 @@ with_default_record as (
 ),
 hashed as (
     SELECT
-          concat_ws('|', SECURITY_CODE)                     as SECURITY_HKEY
-        , concat_ws('|', SECURITY_CODE, SECURITY_NAME,       
-            SECTOR_NAME, INDUSTRY_NAME, COUNTRY_CODE, 
-            EXCHANGE_CODE)                                  as SECURITY_HDIFF
-        ,  * EXCLUDE LOAD_TS                                -- Loads all columns but LOAD_TS
-        , LOAD_TS                                           as LOAD_TS_UTC
+      {{ dbt_utils.generate_surrogate_key(
+            ['SECURITY_CODE']
+      ) }}                                                              AS POSITION_HKEY
+      , {{ dbt_utils.generate_surrogate_key(
+            ['SECURITY_CODE', 'SECURITY_NAME', 'SECTOR_NAME', 'INDUSTRY_NAME', 'COUNTRY_CODE', 'EXCHANGE_CODE']
+      ) }}    
+      ,  * EXCLUDE LOAD_TS                                -- Loads all columns but LOAD_TS
+      , LOAD_TS                                           as LOAD_TS_UTC
     FROM with_default_record
 )    
 

@@ -45,24 +45,15 @@ with_default_record AS (
 ),
 hashed AS (
     SELECT
-         concat_ws('|', EXCHANGE_ID)             AS EXCHANGE_HKEY
-        ,concat_ws('|',
-            NVL(TO_VARCHAR(EXCHANGE_NAME), ''),
-            NVL(TO_VARCHAR(EXCHANGE_ID), ''),            
-            NVL(TO_VARCHAR(COUNTRY_NAME), ''),
-            NVL(TO_VARCHAR(CITY_NAME), ''),
-            NVL(TO_VARCHAR(ZONE), ''),
-            NVL(TO_VARCHAR(DELTA), ''),
-            NVL(TO_VARCHAR(DST_PERIOD), ''),
-            NVL(TO_CHAR(OPEN, 'HH24:MI:SS'), ''),
-            NVL(TO_CHAR(CLOSE, 'HH24:MI:SS'), ''),
-            NVL(TO_VARCHAR(LUNCH), ''),
-            NVL(TO_CHAR(OPEN_UTC, 'HH24:MI:SS'), ''),
-            NVL(TO_CHAR(CLOSE_UTC, 'HH24:MI:SS'), ''),
-            NVL(TO_VARCHAR(LUNCH_UTC), '')
-        )                                        AS EXCHANGE_HDIFF                     
-        , * EXCLUDE LOAD_TS                    
-        , LOAD_TS                                AS LOAD_TS_UTC
+       {{ dbt_utils.generate_surrogate_key(
+        ['EXCHANGE_ID']
+      )}}                                      AS EXCHANGE_HKEY
+      ,{{dbt_utils.generate_surrogate_key(
+        ['EXCHANGE_NAME', 'EXCHANGE_ID', 'COUNTRY_NAME', 'CITY_NAME', 'ZONE', 'DELTA', 'DST_PERIOD', 'OPEN',
+         'CLOSE', 'LUNCH', 'OPEN_UTC', 'CLOSE_UTC', 'LUNCH_UTC']
+      )}}                                      AS EXCHANGE_HDIFF             
+      , * EXCLUDE LOAD_TS                    
+      , LOAD_TS                                AS LOAD_TS_UTC
     
     FROM with_default_record
 )

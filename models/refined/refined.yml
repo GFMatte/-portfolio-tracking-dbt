@@ -12,3 +12,51 @@ models:
           The unrealized profit percentage on the position.
         tests:
           - not_null
+
+  # Generated with < {{codegen.generate_model_yaml(model_names = ['REF_ABC_BANK_SECURITY_INFO'])}} >
+  - name: ref_abc_bank_security_info
+    description: ""
+    columns:
+      - name: security_hkey
+        data_type: varchar
+        description: ""
+
+      - name: security_hdiff
+        data_type: varchar
+        description: ""
+
+      - name: security_code
+        data_type: varchar
+        description: ""
+
+      - name: security_name
+        data_type: varchar
+        description: ""
+
+      - name: sector_name
+        data_type: varchar
+        description: ""
+
+      - name: industry_name
+        data_type: varchar
+        description: ""
+
+      - name: country_code
+        data_type: varchar
+        description: ""
+
+      - name: exchange_code
+        data_type: varchar
+        description: ""
+
+      - name: record_source
+        data_type: varchar
+        description: ""
+
+      - name: load_ts_utc
+        data_type: timestamp_ntz
+        description: ""
+
+      - name: snsh_load_ts_utc
+        data_type: timestamp_ntz
+        description: ""

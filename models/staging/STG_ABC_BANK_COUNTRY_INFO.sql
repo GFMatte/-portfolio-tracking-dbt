@@ -43,12 +43,12 @@ hashed AS (
     SELECT
       {{ dbt_utils.generate_surrogate_key(
             ['COUNTRY_CODE']
-      ) }}                                                              AS POSITION_HKEY
+      ) }}                                                              AS COUNTRY_HKEY
       , {{ dbt_utils.generate_surrogate_key(
             ['COUNTRY_NAME', 'COUNTRY_CODE', 'COUNTRY_CODE_3_LETTER', 'COUNTRY_CODE_NUMERIC', 'ISO_3166_2_CODE', 'REGION_NAME', 
              'SUB_REGION_NAME', 'INTERMEDIATE_REGION_NAME', 'REGION_CODE', 'SUB_REGION_CODE', 'INTERMEDIATE_REGION_CODE']
-      ) }}                                                              AS POSITION_HDIFF
-    ,* EXCLUDE LOAD_TS,
+      ) }}                                                              AS COUNTRY_HDIFF
+    ,* EXCLUDE LOAD_TS
     , LOAD_TS AS LOAD_TS_UTC
     
     FROM with_default_record

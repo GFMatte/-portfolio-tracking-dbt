@@ -31,10 +31,10 @@ hashed AS (
     SELECT
       {{ dbt_utils.generate_surrogate_key(
             ['ALPHABETIC_CODE']
-      ) }}                                                              AS POSITION_HKEY
+      ) }}                                                              AS CURRENCY_HKEY
       , {{ dbt_utils.generate_surrogate_key(
             ['ALPHABETIC_CODE', 'NUMERIC_CODE', 'DECIMAL_DIGITS', 'CURRENCY_NAME', 'LOCATIONS_NAME']
-      ) }}                                                              AS POSITION_HDIFF              
+      ) }}                                                              AS CURRENCY_HDIFF              
       , * EXCLUDE LOAD_TS                    
       , LOAD_TS                                AS LOAD_TS_UTC
     

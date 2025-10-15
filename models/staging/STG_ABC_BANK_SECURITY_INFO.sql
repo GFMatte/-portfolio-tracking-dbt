@@ -33,12 +33,12 @@ hashed as (
     SELECT
       {{ dbt_utils.generate_surrogate_key(
             ['SECURITY_CODE']
-      ) }}                                                              AS POSITION_HKEY
+      ) }}                                                              AS SECURITY_HKEY
       , {{ dbt_utils.generate_surrogate_key(
             ['SECURITY_CODE', 'SECURITY_NAME', 'SECTOR_NAME', 'INDUSTRY_NAME', 'COUNTRY_CODE', 'EXCHANGE_CODE']
-      ) }}    
+      ) }}                                                              AS SECURITY_HDIFF
       ,  * EXCLUDE LOAD_TS                                -- Loads all columns but LOAD_TS
-      , LOAD_TS                                           as LOAD_TS_UTC
+      , LOAD_TS                                                         AS LOAD_TS_UTC
     FROM with_default_record
 )    
 

@@ -120,6 +120,9 @@ models:
         data_type: varchar
         description: >
           Hashed primary key uniquely identifying each security record.   Derived from the business key fields and used for surrogate key joins.
+        tests:
+          - unique
+          - not_null
 
       - name: security_hdiff
         data_type: varchar
@@ -191,6 +194,9 @@ models:
         description: >
           Hashed primary key uniquely identifying each exchange record.
           Derived from the business key fields for consistent surrogate joins.
+        tests:
+          - unique
+          - not_null
 
       - name: exchange_hdiff
         data_type: varchar
@@ -299,7 +305,10 @@ models:
         description: >
           Hashed primary key uniquely identifying each currency record.
           Derived from the business key fields for consistent surrogate joins.
-
+        tests:
+          - unique
+          - not_null
+          
       - name: currency_hdiff
         data_type: varchar
         description: >

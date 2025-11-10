@@ -1,0 +1,362 @@
+version: 2
+# Generated with < {{codegen.generate_model_yaml(model_names = ['REF_ABC_BANK_SECURITY_INFO'])}} >
+
+models:
+  - name: REF_POSITION_ABC_BANK
+    description: >
+      Reference table containing portfolio position information per account and security
+      for ABC Bank. Includes quantities, cost bases, market values, and unrealized
+      profit metrics as of a given reporting date.
+    columns:
+      - name: position_hkey
+        data_type: varchar
+        description: >
+          Hashed primary key uniquely identifying each position record.
+          Used for surrogate key joins and deduplication in incremental models.
+
+      - name: position_hdiff
+        data_type: varchar
+        description: >
+          Hash-difference column used to detect attribute-level changes in
+          position attributes between loads.
+
+      - name: account_code
+        data_type: varchar
+        description: >
+          Identifier representing the client or account associated with the position.
+
+      - name: security_code
+        data_type: varchar
+        description: >
+          Unique code for the financial instrument (e.g., ticker symbol or ISIN).
+        tests:
+          - relationships:
+              arguments:
+                to: ref('REF_ABC_BANK_SECURITY_INFO')
+                field: security_code
+      - name: security_name
+        data_type: varchar
+        description: >
+          Descriptive name of the financial instrument corresponding to the security code.
+
+      - name: exchange_code
+        data_type: varchar
+        description: >
+          Code representing the financial exchange where the security is traded.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('REF_ABC_BANK_EXCHANGE_INFO')
+                field: exchange_id
+      - name: report_date
+        data_type: date
+        description: >
+          Reporting date for the position snapshot; generally represents the valuation date.
+
+      - name: quantity
+        data_type: number
+        description: >
+          Total quantity of the security held in the account as of the reporting date.
+
+      - name: cost_base
+        data_type: number
+        description: >
+          Historical acquisition cost of the position, used for profit and loss calculations.
+
+      - name: position_value
+        data_type: number
+        description: >
+          Market value of the position at the reporting date.
+
+      - name: currency_code
+        data_type: varchar
+        description: >
+          ISO 4217 code for the currency in which the position is denominated.
+        tests:
+          - relationships:
+              arguments:
+                to: ref('REF_ABC_BANK_CURRENCY_INFO')
+                field: alphabetic_code
+      - name: record_source
+        data_type: varchar
+        description: >
+          Metadata column identifying the original source system or dataset
+          from which the position record was ingested.
+
+      - name: load_ts_utc
+        data_type: varchar
+        description: >
+          UTC timestamp representing when the seed data for this record
+          was first loaded into the staging layer.
+
+      - name: snsh_load_ts_utc
+        data_type: timestamp_ntz
+        description: >
+          UTC timestamp of the latest snapshot refresh, used for lineage
+          and audit tracking.
+
+      - name: unrealized_profit
+        data_type: number
+        description: >
+          Difference between current position value and cost base, representing
+          unrealized gain or loss.
+
+      - name: unrealized_profit_pct
+        data_type: number
+        description: >
+          Percentage change between position value and cost base,
+          calculated as (Unrealized Profit / Cost Base) x 100.
+
+
+  # REF_ABC_BANK_SECURITY_INFO
+  - name: ref_abc_bank_security_info
+    description: >
+      Reference table providing standardized information about listed securities,
+      including name, sector, industry, country of listing, and exchange details.
+      Serves as a master dimension for joining transactional or position data to
+      descriptive security attributes.
+    columns:
+      - name: security_hkey
+        data_type: varchar
+        description: >
+          Hashed primary key uniquely identifying each security record.   Derived from the business key fields and used for surrogate key joins.
+        tests:
+          - unique
+          - not_null
+
+      - name: security_hdiff
+        data_type: varchar
+        description: >
+          Hash-difference column used to detect attribute-level changes in
+          source data during snapshot or incremental loads.
+
+      - name: security_code
+        data_type: varchar
+        description: >
+          Unique code or symbol representing the financial security (e.g., ticker symbol).
+
+      - name: security_name
+        data_type: varchar
+        description: >
+          Full descriptive name of the security or instrument.
+
+      - name: sector_name
+        data_type: varchar
+        description: >
+          High-level sector classification to which the security belongs
+          (e.g., Financials, Industrials, Healthcare).
+
+      - name: industry_name
+        data_type: varchar
+        description: >
+          More granular industry classification within the sector, following
+          the provider's or exchange's taxonomy.
+
+      - name: country_code
+        data_type: varchar
+        description: >
+          ISO country code representing the country where the security is issued or traded.
+
+      - name: exchange_code
+        data_type: varchar
+        description: >
+          Code identifying the exchange on which the security is listed or traded.
+
+      - name: record_source
+        data_type: varchar
+        description: >
+          Metadata column indicating the original source system or file from
+          which the record was loaded.
+
+      - name: load_ts_utc
+        data_type: timestamp_ntz
+        description: >
+          UTC timestamp capturing when the seed data for this record was loaded
+          into the staging layer.
+
+      - name: snsh_load_ts_utc
+        data_type: timestamp_ntz
+        description: >
+          UTC timestamp indicating when the latest snapshot refresh occurred,
+          used for audit and data lineage tracking.
+
+
+  # REF_ABC_BANK_EXCHANGE_INFO
+  - name: ref_abc_bank_exchange_info
+    description: >
+      Reference table providing standardized metadata about global financial exchanges,
+      including geographic location, time zone details, and trading session hours.
+      Used as a lookup dimension for linking securities, market data, or positions
+      to their respective exchanges.
+    columns:
+      - name: exchange_hkey
+        data_type: varchar
+        description: >
+          Hashed primary key uniquely identifying each exchange record.
+          Derived from the business key fields for consistent surrogate joins.
+        tests:
+          - unique
+          - not_null
+
+      - name: exchange_hdiff
+        data_type: varchar
+        description: >
+          Hash-difference column used to detect changes in exchange attributes
+          during snapshot or incremental updates.
+
+      - name: exchange_name
+        data_type: varchar
+        description: >
+          Official name of the exchange (e.g., Australian Securities Exchange, NASDAQ).
+
+      - name: exchange_id
+        data_type: varchar
+        description: >
+          Unique short code or identifier for the exchange (e.g., ASX, NYSE, LSE).
+
+      - name: country_name
+        data_type: varchar
+        description: >
+          Name of the country where the exchange operates.
+
+      - name: city_name
+        data_type: varchar
+        description: >
+          City where the exchange is headquartered or primarily located.
+
+      - name: zone
+        data_type: varchar
+        description: >
+          Time zone offset in hours
+
+      - name: delta
+        data_type: float
+        description: >
+          Standard time offset from Coordinated Universal Time (UTC), expressed in hours.
+
+      - name: dst_period
+        data_type: varchar
+        description: >
+          Description or code representing the daylight saving time period applicable
+          to the exchange, if any.
+
+      - name: open
+        data_type: time
+        description: >
+          Local market opening time for the exchange's main trading session.
+
+      - name: close
+        data_type: time
+        description: >
+          Local market closing time for the exchange's main trading session.
+
+      - name: lunch
+        data_type: varchar
+        description: >
+          Local lunch break period or mid-session pause, if applicable.
+
+      - name: open_utc
+        data_type: time
+        description: >
+          Market opening time converted to UTC for standardized cross-exchange
+          comparisons.
+
+      - name: close_utc
+        data_type: time
+        description: >
+          Market closing time converted to UTC for standardized cross-exchange
+          comparisons.
+
+      - name: lunch_utc
+        data_type: varchar
+        description: >
+          Lunch or break period expressed in UTC time, used for global trading
+          schedule alignment.
+
+      - name: record_source
+        data_type: varchar
+        description: >
+          Metadata column identifying the original source system or dataset
+          from which the exchange record was loaded.
+
+      - name: load_ts_utc
+        data_type: timestamp_ntz
+        description: >
+          UTC timestamp representing when the seed data for this record was
+          first loaded into the staging layer.
+
+      - name: snsh_load_ts_utc
+        data_type: timestamp_ntz
+        description: >
+          UTC timestamp indicating when the most recent snapshot refresh occurred,
+          supporting auditability and lineage tracking.
+
+
+  # REF_ABC_BANK_CURRENCY_INFO
+  - name: ref_abc_bank_currency_info
+    description: >
+      Reference table providing standardized information about global currencies,
+      including alphabetic and numeric ISO codes, decimal precision, and associated
+      locations. Serves as a master lookup for linking transaction, position, or
+      valuation data to currency metadata.
+    columns:
+      - name: currency_hkey
+        data_type: varchar
+        description: >
+          Hashed primary key uniquely identifying each currency record.
+          Derived from the business key fields for consistent surrogate joins.
+        tests:
+          - unique
+          - not_null
+          
+      - name: currency_hdiff
+        data_type: varchar
+        description: >
+          Hash-difference column used to detect attribute-level changes in
+          currency information during incremental or snapshot loads.
+
+      - name: alphabetic_code
+        data_type: varchar
+        description: >
+          Three-letter ISO 4217 alphabetic code representing the currency
+          (e.g., AUD, USD, EUR).
+
+      - name: numeric_code
+        data_type: number
+        description: >
+          Three-digit ISO 4217 numeric code associated with the currency.
+
+      - name: decimal_digits
+        data_type: number
+        description: >
+          Standard number of decimal digits used for the currency's minor units
+          (e.g., 2 for cents, 0 for JPY).
+
+      - name: currency_name
+        data_type: varchar
+        description: >
+          Full descriptive name of the currency (e.g., Australian Dollar, Euro).
+
+      - name: locations_name
+        data_type: varchar
+        description: >
+          Name of the country or region where the currency is used or officially recognized.
+          Some currencies may be used across multiple locations.
+
+      - name: record_source
+        data_type: varchar
+        description: >
+          Metadata column identifying the original source system or dataset from
+          which the currency information was loaded.
+
+      - name: load_ts_utc
+        data_type: timestamp_ntz
+        description: >
+          UTC timestamp representing when the seed data for this currency record
+          was first loaded into the staging environment.
+
+      - name: snsh_load_ts_utc
+        data_type: timestamp_ntz
+        description: >
+          UTC timestamp indicating when the most recent snapshot refresh occurred,
+          supporting lineage and audit tracking.

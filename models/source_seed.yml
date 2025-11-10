@@ -1,0 +1,36 @@
+version: 2
+sources:
+  - name: seeds
+    schema: "{{target.schema}}_SEED_DATA"
+    tables:
+      - name: ABC_BANK_SECURITY_INFO
+        columns:
+          - name: SECURITY_CODE
+            tests:
+              - not_null
+              - unique
+          - name: SECURITY_NAME
+            tests:
+              - not_null
+              - not_empty
+              
+      - name: ABC_BANK_COUNTRY_INFO
+        columns:
+          - name: COUNTRY_NAME
+            tests:
+              - not_null
+              - not_empty
+
+      - name: ABC_BANK_CURRENCY_INFO
+        columns:
+          - name: ALPHABETIC_CODE
+            tests:
+              - not_null
+              - not_empty
+
+      - name: ABC_BANK_EXCHANGE_INFO 
+        columns:
+          - name: NAME
+            tests:
+              - not_null
+              - not_empty     

@@ -21,3 +21,9 @@ models:
           - not_null
           - unique
           - has_default_key
+          - warn_on_multiple_default_key
+      - name: SECURITY_NAME
+        tests:
+          - warn_on_multiple_default_key:
+              arguments:
+                default_key_value: Missing

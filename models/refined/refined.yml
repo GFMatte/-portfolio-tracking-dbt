@@ -109,7 +109,7 @@ models:
 
 
   # REF_ABC_BANK_SECURITY_INFO
-  - name: ref_abc_bank_security_info
+  - name: REF_ABC_BANK_SECURITY_INFO
     description: >
       Reference table providing standardized information about listed securities,
       including name, sector, industry, country of listing, and exchange details.
@@ -182,7 +182,7 @@ models:
 
 
   # REF_ABC_BANK_EXCHANGE_INFO
-  - name: ref_abc_bank_exchange_info
+  - name: REF_ABC_BANK_EXCHANGE_INFO
     description: >
       Reference table providing standardized metadata about global financial exchanges,
       including geographic location, time zone details, and trading session hours.
@@ -293,7 +293,7 @@ models:
 
 
   # REF_ABC_BANK_CURRENCY_INFO
-  - name: ref_abc_bank_currency_info
+  - name: REF_ABC_BANK_CURRENCY_INFO
     description: >
       Reference table providing standardized information about global currencies,
       including alphabetic and numeric ISO codes, decimal precision, and associated

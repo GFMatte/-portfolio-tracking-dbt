@@ -13,4 +13,4 @@
 {#% do log("No migration to run.", info=True) %#}                        
 -- Remove # to uncomment if no migration to run
 
-{-% endmacro %}
+{%- endmacro %}

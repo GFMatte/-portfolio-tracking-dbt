@@ -5,6 +5,7 @@ sources:
       warn_after:
         count: 3
         period: day
+    loaded_at_field: LOAD_TS
     
     schema: "{{target.schema}}_SEED_DATA"
     tables:

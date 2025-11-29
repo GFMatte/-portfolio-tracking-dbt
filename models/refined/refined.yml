@@ -2,7 +2,7 @@ version: 2
 # Generated with < {{codegen.generate_model_yaml(model_names = ['REF_ABC_BANK_SECURITY_INFO'])}} >
 
 models:
-  - name: REF_POSITION_ABC_BANK
+  - name: ref_position_abc_bank
     description: >
       Reference table containing portfolio position information per account and security
       for ABC Bank. Includes quantities, cost bases, market values, and unrealized

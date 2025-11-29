@@ -7,7 +7,7 @@ exposures:
     maturity: low
     # url: https://xxxx/reports/portfolio_report
     description: >
-      The basic portfolio report to know the positions by account.
+       The basic portfolio report to know the positions by account.
 
     depends_on:
       - ref('FACT_POSITION')

@@ -9,6 +9,8 @@ exposures:
     description: >
        The basic portfolio report to know the positions by account.
 
+       {{ doc('exp_portfolio_report') }}
+       
     depends_on:
       - ref('FACT_POSITION')
       - ref('DIM_SECURITY')

@@ -5,6 +5,7 @@
         unique_key= 'EXCHANGE_HKEY',
         strategy= 'check',
         check_cols= ['EXCHANGE_HDIFF'],
+        enabled=false
     )
 }}
 

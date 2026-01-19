@@ -5,6 +5,7 @@
         unique_key= 'SECURITY_HKEY',
         strategy= 'check',
         check_cols= ['SECURITY_HDIFF'],
+        enabled=false,
     )
 }}
 

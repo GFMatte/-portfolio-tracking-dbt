@@ -5,6 +5,7 @@
         unique_key= 'CURRENCY_HKEY',
         strategy= 'check',
         check_cols= ['CURRENCY_HDIFF'],
+        enabled=false
     )
 }}
 

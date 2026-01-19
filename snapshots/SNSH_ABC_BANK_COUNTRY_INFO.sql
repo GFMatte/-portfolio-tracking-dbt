@@ -4,7 +4,8 @@
   config(
     unique_key='COUNTRY_HKEY',
     strategy='check',
-    check_cols=['COUNTRY_HDIFF']
+    check_cols=['COUNTRY_HDIFF'],
+    enabled=false
   )
 }}
 

@@ -1,8 +1,11 @@
-WITH
-current_from_snapshot as (
-    {{ current_from_snapshot(
-        snsh_ref = ref('SNSH_ABC_BANK_EXCHANGE_INFO'),  output_load_ts = false ) }}
+WITH 
+current_from_history as (
+{{
+  current_from_history(
+        history_rel = ref("HIST_ABC_BANK_EXCHANGE_INFO"),
+        key_column = 'EXCHANGE_HKEY'
+  )  
+}}
 )
 
-SELECT * 
-FROM current_from_snapshot
+SELECT * FROM current_from_history

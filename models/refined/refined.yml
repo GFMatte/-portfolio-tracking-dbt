@@ -1,5 +1,5 @@
 version: 2
-# Generated with < {{codegen.generate_model_yaml(model_names = ['REF_ABC_BANK_SECURITY_INFO'])}} >
+# Generated with < {{codegen.generate_model_yaml(model_names = ['REF_SECURITY_INFO_ABC_BANK'])}} >
 
 models:
   - name: ref_position_abc_bank
@@ -32,7 +32,7 @@ models:
         tests:
           - relationships:
               arguments:
-                to: ref('REF_ABC_BANK_SECURITY_INFO')
+                to: ref('REF_SECURITY_INFO_ABC_BANK')
                 field: security_code
       - name: security_name
         data_type: varchar
@@ -108,8 +108,8 @@ models:
           calculated as (Unrealized Profit / Cost Base) x 100.
 
 
-  # REF_ABC_BANK_SECURITY_INFO
-  - name: ref_abc_bank_security_info
+  # REF_SECURITY_INFO_ABC_BANK
+  - name: ref_security_info_abc_bank
     description: >
       Reference table providing standardized information about listed securities,
       including name, sector, industry, country of listing, and exchange details.

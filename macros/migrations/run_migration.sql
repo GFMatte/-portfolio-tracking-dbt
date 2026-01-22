@@ -1,23 +1,13 @@
-{% macro run_migrations(
-            database = target.database,
-            schema_prefix = target.schema
-) -%}
+{% macro run_migration(migration_name, database, schema_prefix) %}
 
-{#% do log(
-    "Running V001_drop_example_table migration with database = " ~ database ~ ", schema_prefix = " ~ schema_prefix,
-    info=True) %#}
+{% if execute %}
+    {% do log("Running " ~ migration_name ~ " migration with database = "
+            ~ database ~ ", schema_prefix = " ~ schema_prefix, info=True) %}
 
-{#% do run_query(V001_drop_example_table(
-                        database, schema_prefix)) %#}    
+    {% set migration_macro = context.get(migration_name, none) %}
 
-{% do log(
-    "Running V003_drop_table migration with database = " ~ database ~ ", schema_prefix = " ~ schema_prefix,
-    info=True) %}
-
-{% do run_query(V003_drop_table(
-                        database, schema_prefix)) %}    
-
-{#% do log("No migration to run.", info=True) %#}                        
--- Remove # to uncomment if no migration to run
-
-{%- endmacro %}
+    {% do run_query(migration_macro(database, schema_prefix)) if migration_macro
+          else log("!! Macro " ~ migration_name ~ " not found. Skipping call.", info=True) %}
+          
+{% endif %}
+{% endmacro %}

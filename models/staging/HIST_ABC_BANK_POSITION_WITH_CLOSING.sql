@@ -17,7 +17,7 @@ stg_input as (
 
 {% if is_incremental() %} -- in incremental runs, do this....
 
--- Read the current values from the HIST tablke with the "current_from_history" macro
+-- Read the current values from the HIST table with the "current_from_history" macro
 , current_from_history as (
     {{  current_from_history(
         history_rel = this,
